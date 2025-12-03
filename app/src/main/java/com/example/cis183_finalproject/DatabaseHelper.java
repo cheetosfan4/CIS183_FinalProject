@@ -1,0 +1,87 @@
+package com.example.cis183_finalproject;
+
+import android.content.Context;
+import android.database.Cursor;
+import android.database.DatabaseUtils;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
+public class DatabaseHelper extends SQLiteOpenHelper {
+    private static final String database_name = "ColorApp.db";
+    private static final String users_table_name = "Users";
+    private static final String colors_table_name = "Colors";
+    private static final String palettes_table_name = "Palettes";
+
+    public DatabaseHelper(Context c) {
+        super(c, database_name, null, 2);
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        db.execSQL("CREATE TABLE " + users_table_name + " (username varchar(50) primary key not null, password varchar(50), paletteList varchar(255), favColor varchar(50), foreign key (favColor) references " + colors_table_name + " (hex));");
+        db.execSQL("CREATE TABLE " + colors_table_name + " (hex varchar(50) primary key not null, name varchar(50), author varchar(50), foreign key (author) references " + users_table_name + " (username));");
+        db.execSQL("CREATE TABLE " + palettes_table_name + " (paletteID integer primary key autoincrement not null, colorList varchar(255), author varchar(50), foreign key (author) references " + users_table_name + " (username));");
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS " + users_table_name + ";");
+        db.execSQL("DROP TABLE IF EXISTS " + colors_table_name + ";");
+        db.execSQL("DROP TABLE IF EXISTS " + palettes_table_name + ";");
+        onCreate(db);
+    }
+
+    public void fakeData() {
+        fakeUsers();
+        fakeColors();
+        fakePalettes();
+    }
+
+    private void fakeUsers() {
+        if (countRecordsFromTable(users_table_name) == 0) {
+            SQLiteDatabase db = this.getWritableDatabase();
+
+            db.execSQL("INSERT INTO " + users_table_name + " (username, password, paletteList, favColor) VALUES ('testusername', 'testpassword', 'testpalettelist', '#FFFFFF');");
+
+            db.close();
+        }
+    }
+
+    private void fakeColors() {
+
+    }
+
+    private void fakePalettes() {
+
+    }
+
+    private int countRecordsFromTable(String tableName) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        int records = (int) DatabaseUtils.queryNumEntries(db, tableName);
+
+        db.close();
+        return records;
+    }
+
+    public Boolean checkCredentials(String user, String pass) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        //returns 1 when the username and password match an entry in the database
+        String query = "SELECT 1 FROM " + users_table_name + " WHERE username = '" + user + "' AND password = '" + pass + "' LIMIT 1";
+        Cursor cursor = db.rawQuery(query, null);
+
+        boolean found = cursor.moveToFirst();
+        cursor.close();
+        db.close();
+        return found;
+    }
+
+    public String getUsersTableName() {
+        return users_table_name;
+    }
+    public String getColorsTableName() {
+        return colors_table_name;
+    }
+    public String getPalettesTableName() {
+        return palettes_table_name;
+    }
+}
