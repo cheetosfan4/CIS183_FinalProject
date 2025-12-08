@@ -20,6 +20,7 @@ import androidx.core.view.WindowInsetsCompat;
 public class MainActivity extends AppCompatActivity {
 
     Intent signUpActivity;
+    Intent homeActivity;
     DatabaseHelper dbHelper;
 
     EditText et_j_username;
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         signUpActivity = new Intent(MainActivity.this, SignUpActivity.class);
+        homeActivity = new Intent(MainActivity.this, HomeActivity.class);
         dbHelper = new DatabaseHelper(this);
         dbHelper.fakeData();
         SessionData.setCurrentUser(null);
@@ -89,6 +91,8 @@ public class MainActivity extends AppCompatActivity {
             //this is to make sure the database actually gets the full user and it is correctly sent to the sessiondata
             Log.d("CURRENT USER", "USERNAME: " + SessionData.getCurrentUser().getUsername() + ", PASSWORD: " + SessionData.getCurrentUser().getPassword());
             tv_j_error.setVisibility(INVISIBLE);
+            startActivity(homeActivity);
+            finish();
         }
         else if (empty) {
             Log.d("SIGNIN", "EMPTY");

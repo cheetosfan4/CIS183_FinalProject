@@ -20,6 +20,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        //palettes will have a comma separated string of hex values for colorList
+        //users will have a comma separated string of paletteIDs for paletteList
+        //will have a function that parses the comma separated strings into actual lists
         db.execSQL("CREATE TABLE " + users_table_name + " (username varchar(50) primary key not null, password varchar(50), paletteList varchar(255), favColor varchar(50), foreign key (favColor) references " + colors_table_name + " (hex));");
         db.execSQL("CREATE TABLE " + colors_table_name + " (hex varchar(50) primary key not null, name varchar(50), author varchar(50), foreign key (author) references " + users_table_name + " (username));");
         db.execSQL("CREATE TABLE " + palettes_table_name + " (paletteID integer primary key autoincrement not null, colorList varchar(255), author varchar(50), foreign key (author) references " + users_table_name + " (username));");
@@ -100,6 +103,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
 
         return user;
+    }
+
+    public void addUserToDatabase(User user) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String username = user.getUsername();
+        String password = user.getPassword();
+
+        String information = "'" + username + "', '" + password + "'";
+        db.execSQL("INSERT INTO " + users_table_name + " (username, password) VALUES (" + information + ");");
+        db.close();
     }
 
     public String getUsersTableName() {

@@ -8,6 +8,20 @@
     tools:context=".SignUpActivity">
 
     <TextView
+        android:id="@+id/tv_v_signup_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:text="ERROR"
+        android:textAlignment="center"
+        android:textColor="#FF0000"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/btn_v_signup_signup"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
         android:id="@+id/tv_v_signup_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
