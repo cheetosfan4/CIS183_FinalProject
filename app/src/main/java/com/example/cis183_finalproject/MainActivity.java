@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         signUpActivity = new Intent(MainActivity.this, SignUpActivity.class);
         dbHelper = new DatabaseHelper(this);
         dbHelper.fakeData();
+        SessionData.setCurrentUser(null);
 
         et_j_username = findViewById(R.id.et_v_main_username);
         et_j_password = findViewById(R.id.et_v_main_password);
@@ -83,6 +84,10 @@ public class MainActivity extends AppCompatActivity {
 
         if (found) {
             Log.d("SIGNIN", "CORRECT");
+            User currentUser = dbHelper.getUser(user);
+            SessionData.setCurrentUser(currentUser);
+            //this is to make sure the database actually gets the full user and it is correctly sent to the sessiondata
+            Log.d("CURRENT USER", "USERNAME: " + SessionData.getCurrentUser().getUsername() + ", PASSWORD: " + SessionData.getCurrentUser().getPassword());
             tv_j_error.setVisibility(INVISIBLE);
         }
         else if (empty) {

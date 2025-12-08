@@ -6,6 +6,8 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.List;
+
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String database_name = "ColorApp.db";
     private static final String users_table_name = "Users";
@@ -73,6 +75,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return found;
+    }
+
+    public User getUser(String username) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + users_table_name + " WHERE username = '" + username + "' LIMIT 1";
+        Cursor cursor = db.rawQuery(query, null);
+        User user = new User();
+        //placeholder palettelist and favcolor until i add in the ability to read them from the database
+        List<Palette> paletteList = null;
+        ColorData favColor = null;
+
+        if (cursor.moveToFirst()) {
+            do {
+                user.setUsername(cursor.getString(0));
+                user.setPassword(cursor.getString(1));
+                user.setPaletteList(paletteList);
+                user.setFavColor(favColor);
+            }
+            while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        return user;
     }
 
     public String getUsersTableName() {
