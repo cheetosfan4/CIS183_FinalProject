@@ -2,8 +2,11 @@ package com.example.cis183_finalproject;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.se.omapi.Session;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ListView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,10 +14,17 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ManageColorsActivity extends AppCompatActivity {
     Intent homeActivity;
+    DatabaseHelper dbHelper;
 
     Button btn_j_back;
+    ListView lv_j_colors;
+    ColorListAdapter cLAdapter;
+    List<ColorData> colorList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +38,14 @@ public class ManageColorsActivity extends AppCompatActivity {
         });
 
         homeActivity = new Intent(ManageColorsActivity.this, HomeActivity.class);
+        dbHelper = new DatabaseHelper(this);
 
         btn_j_back = findViewById(R.id.btn_v_manageColors_back);
+        lv_j_colors = findViewById(R.id.lv_v_manageColors_colors);
+
+        colorList = dbHelper.getColorsFromUser(SessionData.getCurrentUser());
+        cLAdapter = new ColorListAdapter(this, colorList);
+        lv_j_colors.setAdapter(cLAdapter);
 
         listeners();
     }
@@ -40,6 +56,21 @@ public class ManageColorsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 startActivity(homeActivity);
                 finish();
+            }
+        });
+        lv_j_colors.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //load edit color activity
+            }
+        });
+        lv_j_colors.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                dbHelper.deleteColorFromDatabase(colorList.get(position));
+                colorList.remove(position);
+                cLAdapter.notifyDataSetChanged();
+                return true;
             }
         });
     }

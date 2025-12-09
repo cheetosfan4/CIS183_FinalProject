@@ -6,6 +6,7 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -190,6 +191,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return color;
     }
 
+    public List<ColorData> getColorsFromUser(User user) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String username = user.getUsername();
+        List<ColorData> colorList = new ArrayList<>();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + colors_table_name + " WHERE author = '" + username + "'", null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                ColorData color = new ColorData();
+                color.setHex(cursor.getString(0));
+                color.setName(cursor.getString(1));
+                color.setAuthor(getUser(cursor.getString(2)));
+                colorList.add(color);
+            }
+            while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        return colorList;
+    }
+
+    public void deleteColorFromDatabase(ColorData color) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String hex = color.getHex();
+
+        db.execSQL("DELETE FROM " + colors_table_name + " WHERE hex = '" + hex + "';");
+        db.close();
+    }
     //====== palette functions =====================================================================
 
 
