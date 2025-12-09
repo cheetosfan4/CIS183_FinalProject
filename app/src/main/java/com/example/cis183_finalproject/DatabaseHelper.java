@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -16,7 +17,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String palettes_table_name = "Palettes";
 
     public DatabaseHelper(Context c) {
-        super(c, database_name, null, 5);
+        super(c, database_name, null, 7);
     }
 
     @Override
@@ -74,8 +75,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (countRecordsFromTable(palettes_table_name) == 0) {
             SQLiteDatabase db = this.getWritableDatabase();
 
-            db.execSQL("INSERT INTO " + palettes_table_name + " (colorList, author) VALUES ('2,FFFFFF,000000', 'testusername');");
-            db.execSQL("INSERT INTO " + palettes_table_name + " (colorList, author) VALUES ('4,45DE12,AB12DE,1245DE,DEAB12', 'testusername');");
+            db.execSQL("INSERT INTO " + palettes_table_name + " (colorList, author) VALUES ('FFFFFF,000000', 'testusername');");
+            db.execSQL("INSERT INTO " + palettes_table_name + " (colorList, author) VALUES ('45DE12,AB12DE,1245DE,DEAB12', 'testusername');");
 
             db.close();
         }
@@ -222,8 +223,87 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
     //====== palette functions =====================================================================
+    public List<Palette> getPalettesFromUser(User user) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String username = user.getUsername();
+        List<Palette> paletteList = new ArrayList<>();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + palettes_table_name + " WHERE author = '" + username + "'", null);
 
+        if (cursor.moveToFirst()) {
+            do {
+                Palette palette = new Palette();
+                palette.setPaletteID(cursor.getInt(0));
+                palette.setColorList(parseColorsFromString(cursor.getString(1)));
+                palette.setAuthor(getUser(cursor.getString(2)));
+                paletteList.add(palette);
+            }
+            while (cursor.moveToNext());
+        }
 
+        cursor.close();
+        db.close();
+
+        return paletteList;
+    }
+
+    private List<ColorData> parseColorsFromString(String colorString) {
+        String[] colorHexArray = colorString.split(",");
+        List<ColorData> colorList = new ArrayList<>();
+
+        for (int i = 0; i < colorHexArray.length; i++) {
+            ColorData color = getColor(colorHexArray[i]);
+            if (color != null) {
+                colorList.add(color);
+            }
+        }
+
+        return colorList;
+    }
+
+    public void deletePaletteFromDatabase(Palette palette) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int paletteID = palette.getPaletteID();
+
+        db.execSQL("DELETE FROM " + palettes_table_name + " WHERE paletteID = '" + paletteID + "';");
+        db.close();
+    }
+
+    public void addPaletteToDatabase(Palette palette) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        List<ColorData> colorList = palette.getColorList();
+        String colorHexString = convertColorListToString(colorList);
+        String author = palette.getAuthor().getUsername();
+
+        String information = "'" + colorHexString + "', '" +  author +"'";
+        db.execSQL("INSERT INTO " + palettes_table_name + " (colorList, author) VALUES (" + information + ");");
+        db.close();
+    }
+
+    private String convertColorListToString(List<ColorData> cL) {
+        String colorHexString = "";
+
+        for (int i = 0; i < cL.size(); i++) {
+            colorHexString += cL.get(i).getHex();
+            if (i != cL.size() - 1) {
+                colorHexString += ",";
+            }
+        }
+
+        return colorHexString;
+    }
+
+    public void addColorToPalette(Palette palette, ColorData color) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        //add error checking for if the palette already contains that color
+        //but, this should not happen on the create color screen
+        palette.getColorList().add(color);
+        String colorHexString = convertColorListToString(palette.getColorList());
+        int paletteID = palette.getPaletteID();
+
+        String information = "colorList = '" + colorHexString + "'";
+        db.execSQL("UPDATE " + palettes_table_name + " SET " + information + " WHERE paletteID = '" + paletteID + "';");
+        db.close();
+    }
 
     //====== getters ===============================================================================
     public String getUsersTableName() {

@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CIS183_FinalProject">
         <activity
+            android:name=".EditPaletteActivity"
+            android:exported="false" />
+        <activity
             android:name=".ManageAccountActivity"
             android:exported="false" />
         <activity

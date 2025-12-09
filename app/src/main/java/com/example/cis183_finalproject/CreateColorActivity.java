@@ -23,6 +23,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CreateColorActivity extends AppCompatActivity {
 
     Intent homeActivity;
@@ -51,8 +54,11 @@ public class CreateColorActivity extends AppCompatActivity {
 
     TextView tv_j_error;
     TextView tv_j_paletteSave;
-    Spinner spn_j_paletteSave;
     Button btn_j_paletteSave;
+    Button btn_j_newPaletteSave;
+    Spinner spn_j_paletteSave;
+    PaletteListAdapter pLAdapter;
+    List<Palette> paletteList;
 
 
     @Override
@@ -92,8 +98,13 @@ public class CreateColorActivity extends AppCompatActivity {
 
         tv_j_error = findViewById(R.id.tv_v_createColor_error);
         tv_j_paletteSave = findViewById(R.id.tv_v_createColor_paletteSave);
-        spn_j_paletteSave = findViewById(R.id.spn_v_createColor_paletteSave);
         btn_j_paletteSave = findViewById(R.id.btn_v_createColor_paletteSave);
+        btn_j_newPaletteSave = findViewById(R.id.btn_v_createColor_newPaletteSave);
+        spn_j_paletteSave = findViewById(R.id.spn_v_createColor_paletteSave);
+
+        paletteList = dbHelper.getPalettesFromUser(SessionData.getCurrentUser());
+        pLAdapter = new PaletteListAdapter(this, paletteList);
+        spn_j_paletteSave.setAdapter(pLAdapter);
 
         listeners();
     }
@@ -109,7 +120,13 @@ public class CreateColorActivity extends AppCompatActivity {
         btn_j_paletteSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveColor();
+                saveColor(false);
+            }
+        });
+        btn_j_newPaletteSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveColor(true);
             }
         });
         sb_j_RGB_red.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -175,7 +192,7 @@ public class CreateColorActivity extends AppCompatActivity {
         tv_j_hex.setText("#" + ColorData.RGBtoHex(r, g, b));
     }
 
-    private void saveColor() {
+    private void saveColor(boolean newPalette) {
         //needs error checking for:
         // - name contains special characters
         ColorData color = new ColorData();
@@ -185,11 +202,24 @@ public class CreateColorActivity extends AppCompatActivity {
         String hex = ColorData.RGBtoHex(r, g, b);
         String name = et_j_name.getText().toString();
 
-        if (dbHelper.getColor(hex) == null && !name.isEmpty()) {
+        if (dbHelper.getColor(hex) == null && !name.isEmpty() && (spn_j_paletteSave.getSelectedItem() != null || newPalette)) {
             color.setHex(hex);
             color.setName(name);
             color.setAuthor(SessionData.getCurrentUser());
             dbHelper.addColorToDatabase(color);
+
+            if (newPalette) {
+                Palette palette = new Palette();
+                List<ColorData> list = new ArrayList<>();
+                list.add(color);
+                palette.setColorList(list);
+                palette.setAuthor(SessionData.getCurrentUser());
+
+                dbHelper.addPaletteToDatabase(palette);
+            }
+            else {
+                dbHelper.addColorToPalette((Palette)spn_j_paletteSave.getSelectedItem(), color);
+            }
 
             sb_j_RGB_red.setProgress(0);
             sb_j_RGB_green.setProgress(0);
@@ -204,6 +234,10 @@ public class CreateColorActivity extends AppCompatActivity {
         else if (name.isEmpty()) {
             Log.d("ERROR", "NAME IS EMPTY");
             tv_j_error.setText("Name field cannot be empty!");
+            tv_j_error.setVisibility(VISIBLE);
+        }
+        else if (spn_j_paletteSave.getSelectedItem() == null) {
+            tv_j_error.setText("No palette is selected!");
             tv_j_error.setVisibility(VISIBLE);
         }
         else {

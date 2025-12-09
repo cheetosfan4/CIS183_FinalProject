@@ -1,8 +1,9 @@
 package com.example.cis183_finalproject;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Palette {
+public class Palette implements Serializable {
     private int paletteID;
     private List<ColorData> colorList;
     private User author;

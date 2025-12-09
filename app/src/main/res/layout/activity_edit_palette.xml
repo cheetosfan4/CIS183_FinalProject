@@ -5,21 +5,20 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ManagePalettesActivity">
+    tools:context=".EditPaletteActivity">
 
     <TextView
-        android:id="@+id/tv_v_managePalettes_title"
+        android:id="@+id/tv_v_editPalette_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Palettes"
-        android:textSize="34sp"
+        android:layout_marginTop="25dp"
+        android:text="Click to edit, long click to delete"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_v_editPalette_title" />
 
     <Button
-        android:id="@+id/btn_v_managePalettes_back"
+        android:id="@+id/btn_v_editPalette_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -29,17 +28,18 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tv_v_managePalettes_info"
+        android:id="@+id/tv_v_editPalette_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:text="Click to edit, long click to delete"
+        android:layout_marginTop="8dp"
+        android:text="Palette"
+        android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_v_managePalettes_back" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
-        android:id="@+id/lv_v_managePalettes_palettes"
+        android:id="@+id/lv_v_editPalette_colors"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
@@ -49,6 +49,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_v_managePalettes_info" />
-
+        app:layout_constraintTop_toBottomOf="@+id/tv_v_editPalette_info" />
 </androidx.constraintlayout.widget.ConstraintLayout>

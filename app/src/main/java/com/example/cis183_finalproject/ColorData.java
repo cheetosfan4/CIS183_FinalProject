@@ -1,6 +1,8 @@
 package com.example.cis183_finalproject;
 
-public class ColorData {
+import java.io.Serializable;
+
+public class ColorData implements Serializable {
     private String hex;
     private String name;
     private User author;
