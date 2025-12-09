@@ -12,6 +12,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CIS183_FinalProject">
         <activity
+            android:name=".ManageAccountActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ManageColorsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ManagePalettesActivity"
+            android:exported="false" />
+        <activity
             android:name=".CreateColorActivity"
             android:exported="false" />
         <activity

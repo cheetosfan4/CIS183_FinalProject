@@ -16,9 +16,13 @@ public class HomeActivity extends AppCompatActivity {
 
     Intent mainActivity;
     Intent createColorActivity;
+    Intent manageColorsActivity;
+    Intent managePalettesActivity;
+    Intent manageAccountActivity;
 
     Button btn_j_back;
     Button btn_j_createColor;
+    Button btn_j_manageColors;
     Button btn_j_managePalettes;
     Button btn_j_manageAccount;
     Button btn_j_search;
@@ -37,9 +41,13 @@ public class HomeActivity extends AppCompatActivity {
 
         mainActivity = new Intent(HomeActivity.this, MainActivity.class);
         createColorActivity = new Intent(HomeActivity.this, CreateColorActivity.class);
+        manageColorsActivity = new Intent(HomeActivity.this, ManageColorsActivity.class);
+        managePalettesActivity = new Intent(HomeActivity.this, ManagePalettesActivity.class);
+        manageAccountActivity = new Intent(HomeActivity.this, ManageAccountActivity.class);
 
         btn_j_back = findViewById(R.id.btn_v_home_back);
         btn_j_createColor = findViewById(R.id.btn_v_home_createColor);
+        btn_j_manageColors = findViewById(R.id.btn_v_home_manageColors);
         btn_j_managePalettes = findViewById(R.id.btn_v_home_managePalettes);
         btn_j_manageAccount = findViewById(R.id.btn_v_home_manageAccount);
         btn_j_search = findViewById(R.id.btn_v_home_search);
@@ -61,6 +69,27 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(createColorActivity);
+                finish();
+            }
+        });
+        btn_j_manageColors.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(manageColorsActivity);
+                finish();
+            }
+        });
+        btn_j_managePalettes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(managePalettesActivity);
+                finish();
+            }
+        });
+        btn_j_manageAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(manageAccountActivity);
                 finish();
             }
         });

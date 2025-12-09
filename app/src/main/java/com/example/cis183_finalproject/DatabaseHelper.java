@@ -138,6 +138,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void changeUserPassword(User user, String newPass) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String username = user.getUsername();
+
+        String information = "password = '" + newPass + "'";
+        db.execSQL("UPDATE " + users_table_name + " SET " + information + " WHERE username = '" + username + "';");
+        db.close();
+    }
+
+    public void deleteUserFromDatabase(User user) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String username = user.getUsername();
+
+        db.execSQL("DELETE FROM " + users_table_name + " WHERE username = '" + username + "';");
+        db.close();
+    }
+
     //====== color functions =======================================================================
 
     public void addColorToDatabase(ColorData color) {

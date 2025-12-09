@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
         else {
             Log.d("SIGNIN", "INCORRECT");
             tv_j_error.setVisibility(VISIBLE);
-            tv_j_error.setText("Username or password are incorrect!");
+            tv_j_error.setText("Username or password is incorrect!");
         }
     }
 }
