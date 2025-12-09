@@ -3,9 +3,9 @@ package com.example.cis183_finalproject;
 import java.util.List;
 
 public class Palette {
-    int paletteID;
-    List<ColorData> colorList;
-    User author;
+    private int paletteID;
+    private List<ColorData> colorList;
+    private User author;
 
     public Palette() {
 

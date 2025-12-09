@@ -3,10 +3,10 @@ package com.example.cis183_finalproject;
 import java.util.List;
 
 public class User {
-    String username;
-    String password;
-    List<Palette> paletteList;
-    ColorData favColor;
+    private String username;
+    private String password;
+    private List<Palette> paletteList;
+    private ColorData favColor;
 
     public User() {
 

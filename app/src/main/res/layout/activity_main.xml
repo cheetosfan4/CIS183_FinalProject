@@ -8,11 +8,12 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/tv_v_main_title"
+        android:id="@+id/tv_v_home_title2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="50dp"
         android:text="Color App"
+        android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,14 +23,14 @@
         android:id="@+id/et_v_main_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="100dp"
         android:ems="10"
         android:hint="Username"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_v_main_title" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_v_home_title2" />
 
     <EditText
         android:id="@+id/et_v_main_password"

@@ -15,6 +15,7 @@ import androidx.core.view.WindowInsetsCompat;
 public class HomeActivity extends AppCompatActivity {
 
     Intent mainActivity;
+    Intent createColorActivity;
 
     Button btn_j_back;
     Button btn_j_createColor;
@@ -35,6 +36,7 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         mainActivity = new Intent(HomeActivity.this, MainActivity.class);
+        createColorActivity = new Intent(HomeActivity.this, CreateColorActivity.class);
 
         btn_j_back = findViewById(R.id.btn_v_home_back);
         btn_j_createColor = findViewById(R.id.btn_v_home_createColor);
@@ -52,6 +54,13 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(mainActivity);
+                finish();
+            }
+        });
+        btn_j_createColor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(createColorActivity);
                 finish();
             }
         });

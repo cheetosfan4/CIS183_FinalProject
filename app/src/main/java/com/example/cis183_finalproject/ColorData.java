@@ -1,9 +1,9 @@
 package com.example.cis183_finalproject;
 
 public class ColorData {
-    String hex;
-    String name;
-    User author;
+    private String hex;
+    private String name;
+    private User author;
 
     public ColorData() {
 
@@ -13,6 +13,21 @@ public class ColorData {
         hex = h;
         name = n;
         author = a;
+    }
+
+    public static String RGBtoHex(int r, int g, int b) {
+        String hex = "";
+
+        hex += Character.forDigit((r / 16), 16);
+        hex += Character.forDigit((r % 16), 16);
+        hex += Character.forDigit((g / 16), 16);
+        hex += Character.forDigit((g % 16), 16);
+        hex += Character.forDigit((b / 16), 16);
+        hex += Character.forDigit((b % 16), 16);
+
+        hex = hex.toUpperCase();
+
+        return hex;
     }
 
     //getters
