@@ -1,11 +1,18 @@
 package com.example.cis183_finalproject;
 
+import static android.view.View.INVISIBLE;
+import static android.view.View.VISIBLE;
+
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -28,12 +35,12 @@ public class CreateColorActivity extends AppCompatActivity {
 
     //====== RGB mode ==============================================================================
     ConstraintLayout cons_j_mode_RGB;
-    TextView tv_j_RGB_red;
-    EditText et_j_RGB_red;
-    TextView tv_j_RGB_green;
-    EditText et_j_RGB_green;
-    TextView tv_j_RGB_blue;
-    EditText et_j_RGB_blue;
+    TextView tv_j_RGB_redValue;
+    SeekBar sb_j_RGB_red;
+    TextView tv_j_RGB_greenValue;
+    SeekBar sb_j_RGB_green;
+    TextView tv_j_RGB_blueValue;
+    SeekBar sb_j_RGB_blue;
     //==============================================================================================
 
     TextView tv_j_name;
@@ -42,7 +49,7 @@ public class CreateColorActivity extends AppCompatActivity {
     View view_j_preview;
     TextView tv_j_hex;
 
-    Button btn_j_save;
+    TextView tv_j_error;
     TextView tv_j_paletteSave;
     Spinner spn_j_paletteSave;
     Button btn_j_paletteSave;
@@ -69,12 +76,12 @@ public class CreateColorActivity extends AppCompatActivity {
 
         //====== RGB mode ==========================================================================
         cons_j_mode_RGB = findViewById(R.id.cons_v_createColor_mode_RGB);
-        tv_j_RGB_red = findViewById(R.id.tv_v_createColor_RGB_red);
-        et_j_RGB_red = findViewById(R.id.et_v_createColor_RGB_red);
-        tv_j_RGB_green = findViewById(R.id.tv_v_createColor_RGB_green);
-        et_j_RGB_green = findViewById(R.id.et_v_createColor_RGB_green);
-        tv_j_RGB_blue = findViewById(R.id.tv_v_createColor_RGB_blue);
-        et_j_RGB_blue = findViewById(R.id.et_v_createColor_RGB_blue);
+        tv_j_RGB_redValue = findViewById(R.id.tv_v_createColor_RGB_redValue);
+        sb_j_RGB_red = findViewById(R.id.sb_v_createColor_RGB_red);
+        tv_j_RGB_greenValue = findViewById(R.id.tv_v_createColor_RGB_greenValue);
+        sb_j_RGB_green = findViewById(R.id.sb_v_createColor_RGB_green);
+        tv_j_RGB_blueValue = findViewById(R.id.tv_v_createColor_RGB_blueValue);
+        sb_j_RGB_blue = findViewById(R.id.sb_v_createColor_RGB_blue);
         //==========================================================================================
 
         tv_j_name = findViewById(R.id.tv_v_createColor_name);
@@ -83,7 +90,7 @@ public class CreateColorActivity extends AppCompatActivity {
         view_j_preview = findViewById(R.id.view_v_createColor_preview);
         tv_j_hex = findViewById(R.id.tv_v_createColor_hex);
 
-        btn_j_save = findViewById(R.id.btn_v_createColor_save);
+        tv_j_error = findViewById(R.id.tv_v_createColor_error);
         tv_j_paletteSave = findViewById(R.id.tv_v_createColor_paletteSave);
         spn_j_paletteSave = findViewById(R.id.spn_v_createColor_paletteSave);
         btn_j_paletteSave = findViewById(R.id.btn_v_createColor_paletteSave);
@@ -99,38 +106,110 @@ public class CreateColorActivity extends AppCompatActivity {
                 finish();
             }
         });
-        btn_j_save.setOnClickListener(new View.OnClickListener() {
+        btn_j_paletteSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 saveColor();
             }
         });
+        sb_j_RGB_red.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                tv_j_RGB_redValue.setText(Integer.toString(progress));
+                updatePreview();
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+        sb_j_RGB_green.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                tv_j_RGB_greenValue.setText(Integer.toString(progress));
+                updatePreview();
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+        sb_j_RGB_blue.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                tv_j_RGB_blueValue.setText(Integer.toString(progress));
+                updatePreview();
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+    }
+
+    private void updatePreview() {
+        int r = sb_j_RGB_red.getProgress();
+        int g = sb_j_RGB_green.getProgress();
+        int b = sb_j_RGB_blue.getProgress();
+
+        int color = Color.rgb(r, g, b);
+        view_j_preview.setBackgroundColor(color);
+        tv_j_hex.setText("#" + ColorData.RGBtoHex(r, g, b));
     }
 
     private void saveColor() {
         //needs error checking for:
-        // - r, g, or b value isn't in the range of 0-255
-        // - one of the fields is empty
         // - name contains special characters
-        // - hex already exists in database
         ColorData color = new ColorData();
-        int r = Integer.parseInt(et_j_RGB_red.getText().toString());
-        int g = Integer.parseInt(et_j_RGB_green.getText().toString());
-        int b = Integer.parseInt(et_j_RGB_blue.getText().toString());
+        int r = sb_j_RGB_red.getProgress();
+        int g = sb_j_RGB_green.getProgress();
+        int b = sb_j_RGB_blue.getProgress();
         String hex = ColorData.RGBtoHex(r, g, b);
+        String name = et_j_name.getText().toString();
 
-        color.setHex(hex);
-        color.setName(et_j_name.getText().toString());
-        color.setAuthor(SessionData.getCurrentUser());
-        dbHelper.addColorToDatabase(color);
+        if (dbHelper.getColor(hex) == null && !name.isEmpty()) {
+            color.setHex(hex);
+            color.setName(name);
+            color.setAuthor(SessionData.getCurrentUser());
+            dbHelper.addColorToDatabase(color);
 
-        et_j_RGB_red.setText("");
-        et_j_RGB_green.setText("");
-        et_j_RGB_blue.setText("");
-        et_j_name.setText("");
+            sb_j_RGB_red.setProgress(0);
+            sb_j_RGB_green.setProgress(0);
+            sb_j_RGB_blue.setProgress(0);
+            et_j_name.setText("");
 
-        //just for testing
-        ColorData testColor = dbHelper.getColor(hex);
-        Log.d("COLOR", "HEX: " + testColor.getHex() + ", NAME: " + testColor.getName() + ", AUTHOR: " + testColor.getAuthor().getUsername());
+            //just for testing
+            ColorData testColor = dbHelper.getColor(hex);
+            Log.d("COLOR", "HEX: " + testColor.getHex() + ", NAME: " + testColor.getName() + ", AUTHOR: " + testColor.getAuthor().getUsername());
+            tv_j_error.setVisibility(INVISIBLE);
+        }
+        else if (name.isEmpty()) {
+            Log.d("ERROR", "NAME IS EMPTY");
+            tv_j_error.setText("Name field cannot be empty!");
+            tv_j_error.setVisibility(VISIBLE);
+        }
+        else {
+            Log.d("ERROR", "COLOR EXISTS IN DATABASE");
+            tv_j_error.setText("Color already exists!");
+            tv_j_error.setVisibility(VISIBLE);
+        }
     }
 }

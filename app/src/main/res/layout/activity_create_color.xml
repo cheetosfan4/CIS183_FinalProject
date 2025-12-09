@@ -65,19 +65,21 @@
             android:layout_marginStart="50dp"
             android:text="Red:"
             android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@+id/et_v_createColor_RGB_red"
+            app:layout_constraintBottom_toBottomOf="@+id/sb_v_createColor_RGB_red"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/et_v_createColor_RGB_red" />
+            app:layout_constraintTop_toTopOf="@+id/sb_v_createColor_RGB_red" />
 
-        <EditText
-            android:id="@+id/et_v_createColor_RGB_red"
+        <SeekBar
+            android:id="@+id/sb_v_createColor_RGB_red"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="50dp"
             android:layout_marginEnd="50dp"
-            android:ems="10"
-            android:inputType="number"
-            app:layout_constraintBottom_toTopOf="@+id/et_v_createColor_RGB_green"
+            android:max="255"
+            android:progress="0"
+            android:progressTint="#FF0000"
+            android:thumbTint="#FF0000"
+            app:layout_constraintBottom_toTopOf="@+id/sb_v_createColor_RGB_green"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tv_v_createColor_RGB_red"
             app:layout_constraintTop_toTopOf="parent" />
@@ -89,22 +91,24 @@
             android:layout_marginStart="50dp"
             android:text="Green:"
             android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@+id/et_v_createColor_RGB_green"
+            app:layout_constraintBottom_toBottomOf="@+id/sb_v_createColor_RGB_green"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/et_v_createColor_RGB_green" />
+            app:layout_constraintTop_toTopOf="@+id/sb_v_createColor_RGB_green" />
 
-        <EditText
-            android:id="@+id/et_v_createColor_RGB_green"
+        <SeekBar
+            android:id="@+id/sb_v_createColor_RGB_green"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="50dp"
             android:layout_marginEnd="50dp"
-            android:ems="10"
-            android:inputType="number"
-            app:layout_constraintBottom_toTopOf="@+id/et_v_createColor_RGB_blue"
+            android:max="255"
+            android:progress="0"
+            android:progressTint="#00FF00"
+            android:thumbTint="#00FF00"
+            app:layout_constraintBottom_toTopOf="@+id/sb_v_createColor_RGB_blue"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tv_v_createColor_RGB_green"
-            app:layout_constraintTop_toBottomOf="@+id/et_v_createColor_RGB_red" />
+            app:layout_constraintTop_toBottomOf="@+id/sb_v_createColor_RGB_red" />
 
         <TextView
             android:id="@+id/tv_v_createColor_RGB_blue"
@@ -113,22 +117,54 @@
             android:layout_marginStart="50dp"
             android:text="Blue:"
             android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@+id/et_v_createColor_RGB_blue"
+            app:layout_constraintBottom_toBottomOf="@+id/sb_v_createColor_RGB_blue"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/et_v_createColor_RGB_blue" />
+            app:layout_constraintTop_toTopOf="@+id/sb_v_createColor_RGB_blue" />
 
-        <EditText
-            android:id="@+id/et_v_createColor_RGB_blue"
+        <SeekBar
+            android:id="@+id/sb_v_createColor_RGB_blue"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="50dp"
             android:layout_marginEnd="50dp"
-            android:ems="10"
-            android:inputType="number"
+            android:max="255"
+            android:progress="0"
+            android:progressTint="#0000FF"
+            android:thumbTint="#0000FF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tv_v_createColor_RGB_blue"
-            app:layout_constraintTop_toBottomOf="@+id/et_v_createColor_RGB_green" />
+            app:layout_constraintTop_toBottomOf="@+id/sb_v_createColor_RGB_green" />
+
+        <TextView
+            android:id="@+id/tv_v_createColor_RGB_redValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="0"
+            app:layout_constraintBottom_toTopOf="@+id/sb_v_createColor_RGB_red"
+            app:layout_constraintEnd_toEndOf="@+id/sb_v_createColor_RGB_red"
+            app:layout_constraintStart_toStartOf="@+id/sb_v_createColor_RGB_red" />
+
+        <TextView
+            android:id="@+id/tv_v_createColor_RGB_greenValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="0"
+            app:layout_constraintBottom_toTopOf="@+id/sb_v_createColor_RGB_green"
+            app:layout_constraintEnd_toEndOf="@+id/sb_v_createColor_RGB_green"
+            app:layout_constraintStart_toStartOf="@+id/sb_v_createColor_RGB_green" />
+
+        <TextView
+            android:id="@+id/tv_v_createColor_RGB_blueValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="0"
+            app:layout_constraintBottom_toTopOf="@+id/sb_v_createColor_RGB_blue"
+            app:layout_constraintEnd_toEndOf="@+id/sb_v_createColor_RGB_blue"
+            app:layout_constraintStart_toStartOf="@+id/sb_v_createColor_RGB_blue" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -161,34 +197,23 @@
         android:id="@+id/view_v_createColor_preview"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="150dp"
+        android:layout_marginBottom="20dp"
         android:background="#000000"
-        app:layout_constraintBottom_toTopOf="@+id/btn_v_createColor_save"
-        app:layout_constraintEnd_toStartOf="@+id/tv_v_createColor_hex"
+        app:layout_constraintBottom_toTopOf="@+id/tv_v_createColor_error"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/tv_v_createColor_hex"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="100dp"
+        android:layout_marginStart="25dp"
         android:text="#000000"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/view_v_createColor_preview"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/view_v_createColor_preview"
         app:layout_constraintTop_toTopOf="@+id/view_v_createColor_preview" />
-
-    <Button
-        android:id="@+id/btn_v_createColor_save"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        android:text="Save"
-        app:layout_constraintBottom_toTopOf="@+id/spn_v_createColor_paletteSave"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/tv_v_createColor_paletteSave"
@@ -200,6 +225,18 @@
         app:layout_constraintBottom_toBottomOf="@+id/spn_v_createColor_paletteSave"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/spn_v_createColor_paletteSave" />
+
+    <TextView
+        android:id="@+id/tv_v_createColor_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="ERROR"
+        android:textColor="#FF0000"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/spn_v_createColor_paletteSave"
+        app:layout_constraintEnd_toEndOf="@+id/spn_v_createColor_paletteSave"
+        app:layout_constraintStart_toStartOf="@+id/tv_v_createColor_paletteSave" />
 
     <Spinner
         android:id="@+id/spn_v_createColor_paletteSave"

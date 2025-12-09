@@ -15,7 +15,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String palettes_table_name = "Palettes";
 
     public DatabaseHelper(Context c) {
-        super(c, database_name, null, 4);
+        super(c, database_name, null, 5);
     }
 
     @Override
@@ -59,6 +59,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             SQLiteDatabase db = this.getWritableDatabase();
 
             db.execSQL("INSERT INTO " + colors_table_name + " (hex, name, author) VALUES ('FFFFFF', 'White', 'testusername');");
+            db.execSQL("INSERT INTO " + colors_table_name + " (hex, name, author) VALUES ('000000', 'Black', 'testusername');");
+            db.execSQL("INSERT INTO " + colors_table_name + " (hex, name, author) VALUES ('45DE12', 'Lime', 'testusername');");
+            db.execSQL("INSERT INTO " + colors_table_name + " (hex, name, author) VALUES ('AB12DE', 'Purple', 'testusername');");
+            db.execSQL("INSERT INTO " + colors_table_name + " (hex, name, author) VALUES ('1245DE', 'Blue', 'testusername');");
+            db.execSQL("INSERT INTO " + colors_table_name + " (hex, name, author) VALUES ('DEAB12', 'Yellow', 'testusername');");
 
             db.close();
         }
@@ -101,13 +106,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT * FROM " + users_table_name + " WHERE username = '" + username + "' LIMIT 1";
         Cursor cursor = db.rawQuery(query, null);
-        User user = new User();
+        User user = null;
         //placeholder palettelist and favcolor until i add in the ability to read them from the database
         List<Palette> paletteList = null;
         ColorData favColor = null;
 
         if (cursor.moveToFirst()) {
             do {
+                user = new User();
                 user.setUsername(cursor.getString(0));
                 user.setPassword(cursor.getString(1));
                 user.setPaletteList(paletteList);
@@ -149,10 +155,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT * FROM " + colors_table_name + " WHERE hex = '" + hex + "' LIMIT 1";
         Cursor cursor = db.rawQuery(query, null);
-        ColorData color = new ColorData();
+        ColorData color = null;
 
         if (cursor.moveToFirst()) {
             do {
+                color = new ColorData();
                 color.setHex(cursor.getString(0));
                 color.setName(cursor.getString(1));
                 color.setAuthor(getUser(cursor.getString(2)));
