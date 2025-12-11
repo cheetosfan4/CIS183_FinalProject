@@ -3,6 +3,7 @@ package com.example.cis183_finalproject;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -67,6 +68,22 @@ public class EditPaletteActivity extends AppCompatActivity {
             public void onClick(View v) {
                 startActivity(managePalettesActivity);
                 finish();
+            }
+        });
+        lv_j_colors.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //edit color
+            }
+        });
+        lv_j_colors.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                dbHelper.removeColorFromPalette(selectedPalette, colorList.get(position));
+                //doesn't have to remove the color from colorList since it is a direct reference to the palette's list
+                //colorList.remove(position);
+                cLAdapter.notifyDataSetChanged();
+                return true;
             }
         });
     }

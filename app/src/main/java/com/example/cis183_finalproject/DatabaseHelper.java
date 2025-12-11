@@ -157,6 +157,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    public List<User> findUsers() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + users_table_name;
+        Cursor cursor = db.rawQuery(query, null);
+        List<User> userList = new ArrayList<>();
+
+        if (cursor.moveToFirst()) {
+            do {
+                User user = new User();
+                user.setUsername(cursor.getString(0));
+                user.setPassword(cursor.getString(1));
+                user.setPaletteList(null);
+                user.setFavColor(null);
+                userList.add(user);
+            }
+            while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        return userList;
+    }
+
     //====== color functions =======================================================================
 
     public void addColorToDatabase(ColorData color) {
@@ -222,6 +246,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DELETE FROM " + colors_table_name + " WHERE hex = '" + hex + "';");
         db.close();
     }
+
+    public List<ColorData> findColors() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + colors_table_name;
+        Cursor cursor = db.rawQuery(query, null);
+        List<ColorData> colorList = new ArrayList<>();
+
+        if (cursor.moveToFirst()) {
+            do {
+                ColorData color = new ColorData();
+                color.setHex(cursor.getString(0));
+                color.setName(cursor.getString(1));
+                color.setAuthor(getUser(cursor.getString(2)));
+                colorList.add(color);
+            }
+            while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        return colorList;
+    }
+
     //====== palette functions =====================================================================
     public List<Palette> getPalettesFromUser(User user) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -252,6 +300,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         for (int i = 0; i < colorHexArray.length; i++) {
             ColorData color = getColor(colorHexArray[i]);
+            //any colors that have been removed from the database will no longer be in any palettes
             if (color != null) {
                 colorList.add(color);
             }
@@ -303,6 +352,40 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String information = "colorList = '" + colorHexString + "'";
         db.execSQL("UPDATE " + palettes_table_name + " SET " + information + " WHERE paletteID = '" + paletteID + "';");
         db.close();
+    }
+
+    public void removeColorFromPalette(Palette palette, ColorData color) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        palette.getColorList().remove(color);
+        String colorHexString = convertColorListToString(palette.getColorList());
+        int paletteID = palette.getPaletteID();
+
+        String information = "colorList = '" + colorHexString + "'";
+        db.execSQL("UPDATE " + palettes_table_name + " SET " + information + " WHERE paletteID = '" + paletteID + "';");
+        db.close();
+    }
+
+    public List<Palette> findPalettes() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + palettes_table_name;
+        Cursor cursor = db.rawQuery(query, null);
+        List<Palette> paletteList = new ArrayList<>();
+
+        if (cursor.moveToFirst()) {
+            do {
+                Palette palette = new Palette();
+                palette.setPaletteID(cursor.getInt(0));
+                palette.setColorList(parseColorsFromString(cursor.getString(1)));
+                palette.setAuthor(getUser(cursor.getString(2)));
+                paletteList.add(palette);
+            }
+            while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        return paletteList;
     }
 
     //====== getters ===============================================================================

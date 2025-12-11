@@ -19,6 +19,7 @@ public class HomeActivity extends AppCompatActivity {
     Intent manageColorsActivity;
     Intent managePalettesActivity;
     Intent manageAccountActivity;
+    Intent searchActivity;
 
     Button btn_j_back;
     Button btn_j_createColor;
@@ -44,6 +45,7 @@ public class HomeActivity extends AppCompatActivity {
         manageColorsActivity = new Intent(HomeActivity.this, ManageColorsActivity.class);
         managePalettesActivity = new Intent(HomeActivity.this, ManagePalettesActivity.class);
         manageAccountActivity = new Intent(HomeActivity.this, ManageAccountActivity.class);
+        searchActivity = new Intent(HomeActivity.this, SearchActivity.class);
 
         btn_j_back = findViewById(R.id.btn_v_home_back);
         btn_j_createColor = findViewById(R.id.btn_v_home_createColor);
@@ -90,6 +92,13 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(manageAccountActivity);
+                finish();
+            }
+        });
+        btn_j_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(searchActivity);
                 finish();
             }
         });
