@@ -315,6 +315,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (user.getPaletteList() == null) {
             loadPalettesToUser(user);
         }
+        //checks to see if the user already has the palette saved
+        for (int i = 0; i < user.getPaletteList().size(); i++) {
+            if (user.getPaletteList().get(i).getPaletteID() == palette.getPaletteID()) {
+                return;
+            }
+        }
         SQLiteDatabase db = this.getWritableDatabase();
         user.getPaletteList().add(palette);
         String paletteIDString = convertPaletteListToString(user.getPaletteList());
@@ -430,9 +436,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void addColorToPalette(Palette palette, ColorData color) {
+        //checks to see if the palette already contains the color
+        for (int i = 0; i < palette.getColorList().size(); i++) {
+            if (palette.getColorList().get(i).getHex().equals(color.getHex())) {
+                return;
+            }
+        }
         SQLiteDatabase db = this.getWritableDatabase();
-        //add error checking for if the palette already contains that color
-        //but, this should not happen on the create color screen
         palette.getColorList().add(color);
         String colorHexString = convertColorListToString(palette.getColorList());
         int paletteID = palette.getPaletteID();

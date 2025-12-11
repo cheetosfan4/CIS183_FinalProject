@@ -19,6 +19,8 @@ import java.util.List;
 
 public class ManageColorsActivity extends AppCompatActivity {
     Intent homeActivity;
+    Intent createColorActivity;
+    Intent viewColorActivity;
     DatabaseHelper dbHelper;
 
     Button btn_j_back;
@@ -38,6 +40,8 @@ public class ManageColorsActivity extends AppCompatActivity {
         });
 
         homeActivity = new Intent(ManageColorsActivity.this, HomeActivity.class);
+        createColorActivity = new Intent(ManageColorsActivity.this, CreateColorActivity.class);
+        viewColorActivity = new Intent(ManageColorsActivity.this, ViewColorActivity.class);
         dbHelper = new DatabaseHelper(this);
 
         btn_j_back = findViewById(R.id.btn_v_manageColors_back);
@@ -61,7 +65,14 @@ public class ManageColorsActivity extends AppCompatActivity {
         lv_j_colors.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //load edit color activity
+                /*createColorActivity.putExtra("selectedColor", colorList.get(position));
+                createColorActivity.putExtra("startedMe", "manageColors");
+                startActivity(createColorActivity);
+                finish();*/
+                viewColorActivity.putExtra("selectedColor", colorList.get(position));
+                viewColorActivity.putExtra("startedMe", "manageColors");
+                startActivity(viewColorActivity);
+                finish();
             }
         });
         lv_j_colors.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {

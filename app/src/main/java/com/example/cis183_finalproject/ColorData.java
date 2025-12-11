@@ -1,6 +1,7 @@
 package com.example.cis183_finalproject;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class ColorData implements Serializable {
     private String hex;
@@ -30,6 +31,25 @@ public class ColorData implements Serializable {
         hex = hex.toUpperCase();
 
         return hex;
+    }
+
+    public static int getRedFromHex(String hex) {
+        int first = Character.digit(hex.charAt(0),16);
+        int second = Character.digit(hex.charAt(1), 16);
+
+        return (first * 16) + second;
+    }
+    public static int getGreenFromHex(String hex) {
+        int first = Character.digit(hex.charAt(2),16);
+        int second = Character.digit(hex.charAt(3), 16);
+
+        return (first * 16) + second;
+    }
+    public static int getBlueFromHex(String hex) {
+        int first = Character.digit(hex.charAt(4),16);
+        int second = Character.digit(hex.charAt(5), 16);
+
+        return (first * 16) + second;
     }
 
     //getters

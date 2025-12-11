@@ -26,6 +26,8 @@ public class SearchActivity extends AppCompatActivity {
 
     Intent homeActivity;
     Intent editPaletteActivity;
+    Intent createColorActivity;
+    Intent viewColorActivity;
     DatabaseHelper dbHelper;
 
     Button btn_j_back;
@@ -67,6 +69,8 @@ public class SearchActivity extends AppCompatActivity {
 
         homeActivity = new Intent(SearchActivity.this, HomeActivity.class);
         editPaletteActivity = new Intent(SearchActivity.this, EditPaletteActivity.class);
+        createColorActivity = new Intent(SearchActivity.this, CreateColorActivity.class);
+        viewColorActivity = new Intent(SearchActivity.this, ViewColorActivity.class);
         dbHelper = new DatabaseHelper(this);
 
         btn_j_back = findViewById(R.id.btn_v_search_back);
@@ -180,6 +184,24 @@ public class SearchActivity extends AppCompatActivity {
                     editPaletteActivity.putExtra("selectedPalette", paletteList.get(position));
                     editPaletteActivity.putExtra("startedMe", "search");
                     startActivity(editPaletteActivity);
+                    finish();
+                }
+                else if (lv_j_results.getAdapter() == cLAdapter) {
+                    /*if (colorList.get(position).getAuthor().getUsername().equals(SessionData.getCurrentUser().getUsername())) {
+                        createColorActivity.putExtra("selectedColor", colorList.get(position));
+                        createColorActivity.putExtra("startedMe", "search");
+                        startActivity(createColorActivity);
+                        finish();
+                    }
+                    else {
+                        viewColorActivity.putExtra("selectedColor", colorList.get(position));
+                        viewColorActivity.putExtra("startedMe", "search");
+                        startActivity(viewColorActivity);
+                        finish();
+                    }*/
+                    viewColorActivity.putExtra("selectedColor", colorList.get(position));
+                    viewColorActivity.putExtra("startedMe", "search");
+                    startActivity(viewColorActivity);
                     finish();
                 }
             }

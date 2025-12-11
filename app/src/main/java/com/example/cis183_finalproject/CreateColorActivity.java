@@ -29,6 +29,11 @@ import java.util.List;
 public class CreateColorActivity extends AppCompatActivity {
 
     Intent homeActivity;
+    Intent searchActivity;
+    Intent editPaletteActivity;
+    Intent manageColorsActivity;
+    Intent cameFrom;
+    Intent activityToStart;
     DatabaseHelper dbHelper;
 
     Button btn_j_back;
@@ -60,6 +65,8 @@ public class CreateColorActivity extends AppCompatActivity {
     PaletteListAdapter pLAdapter;
     List<Palette> paletteList;
 
+    ColorData currentColor;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +80,9 @@ public class CreateColorActivity extends AppCompatActivity {
         });
 
         homeActivity = new Intent(CreateColorActivity.this, HomeActivity.class);
+        searchActivity = new Intent(CreateColorActivity.this, SearchActivity.class);
+        editPaletteActivity = new Intent(CreateColorActivity.this, EditPaletteActivity.class);
+        manageColorsActivity = new Intent(CreateColorActivity.this, ManageColorsActivity.class);
         dbHelper = new DatabaseHelper(this);
 
         btn_j_back = findViewById(R.id.btn_v_createColor_back);
@@ -106,14 +116,53 @@ public class CreateColorActivity extends AppCompatActivity {
         pLAdapter = new PaletteListAdapter(this, paletteList);
         spn_j_paletteSave.setAdapter(pLAdapter);
 
+        cameFrom = getIntent();
+        String startedMe = (String) cameFrom.getSerializableExtra("startedMe");
+        if(startedMe != null && startedMe.equals("search")) {
+            activityToStart = searchActivity;
+        }
+        else if (startedMe != null && startedMe.equals("editPalette")){
+            activityToStart = editPaletteActivity;
+            if (cameFrom.getSerializableExtra("selectedPalette") != null) {
+                activityToStart.putExtra("selectedPalette", cameFrom.getSerializableExtra("selectedPalette"));
+            }
+        }
+        else if (startedMe != null && startedMe.equals("manageColors")){
+            activityToStart = manageColorsActivity;
+        }
+        else {
+            activityToStart = homeActivity;
+        }
+
+        if (cameFrom.getSerializableExtra("selectedColor") != null) {
+            currentColor = (ColorData) cameFrom.getSerializableExtra("selectedColor");
+            int red = ColorData.getRedFromHex(currentColor.getHex());
+            int green = ColorData.getGreenFromHex(currentColor.getHex());
+            int blue = ColorData.getBlueFromHex(currentColor.getHex());
+
+            sb_j_RGB_red.setProgress(red);
+            sb_j_RGB_green.setProgress(green);
+            sb_j_RGB_blue.setProgress(blue);
+            tv_j_RGB_redValue.setText(Integer.toString(red));
+            tv_j_RGB_greenValue.setText(Integer.toString(green));
+            tv_j_RGB_blueValue.setText(Integer.toString(blue));
+
+            updatePreview();
+        }
+        else {
+            currentColor = new ColorData();
+            currentColor.setHex("000000");
+        }
+
         listeners();
+        RGBlisteners();
     }
 
     private void listeners() {
         btn_j_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(homeActivity);
+                startActivity(activityToStart);
                 finish();
             }
         });
@@ -129,77 +178,72 @@ public class CreateColorActivity extends AppCompatActivity {
                 saveColor(true);
             }
         });
+    }
+    private void RGBlisteners() {
         sb_j_RGB_red.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 tv_j_RGB_redValue.setText(Integer.toString(progress));
+                currentColor.setHex(ColorData.RGBtoHex(sb_j_RGB_red.getProgress(), sb_j_RGB_green.getProgress(), sb_j_RGB_blue.getProgress()));
                 updatePreview();
             }
-
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
             }
-
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
             }
         });
         sb_j_RGB_green.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 tv_j_RGB_greenValue.setText(Integer.toString(progress));
+                currentColor.setHex(ColorData.RGBtoHex(sb_j_RGB_red.getProgress(), sb_j_RGB_green.getProgress(), sb_j_RGB_blue.getProgress()));
                 updatePreview();
             }
-
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
             }
-
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
             }
         });
         sb_j_RGB_blue.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 tv_j_RGB_blueValue.setText(Integer.toString(progress));
+                currentColor.setHex(ColorData.RGBtoHex(sb_j_RGB_red.getProgress(), sb_j_RGB_green.getProgress(), sb_j_RGB_blue.getProgress()));
                 updatePreview();
             }
-
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
             }
-
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
             }
         });
     }
 
     private void updatePreview() {
-        int r = sb_j_RGB_red.getProgress();
-        int g = sb_j_RGB_green.getProgress();
-        int b = sb_j_RGB_blue.getProgress();
+        String hex = currentColor.getHex();
+        int r = ColorData.getRedFromHex(hex);
+        int g = ColorData.getGreenFromHex(hex);
+        int b = ColorData.getBlueFromHex(hex);
 
         int color = Color.rgb(r, g, b);
         view_j_preview.setBackgroundColor(color);
-        tv_j_hex.setText("#" + ColorData.RGBtoHex(r, g, b));
+        tv_j_hex.setText("#" + hex);
     }
 
     private void saveColor(boolean newPalette) {
         //needs error checking for:
         // - name contains special characters
         ColorData color = new ColorData();
-        int r = sb_j_RGB_red.getProgress();
+        /*int r = sb_j_RGB_red.getProgress();
         int g = sb_j_RGB_green.getProgress();
         int b = sb_j_RGB_blue.getProgress();
-        String hex = ColorData.RGBtoHex(r, g, b);
+        String hex = ColorData.RGBtoHex(r, g, b);*/
+        String hex = currentColor.getHex();
         String name = et_j_name.getText().toString();
 
         if (dbHelper.getColor(hex) == null && !name.isEmpty() && (spn_j_paletteSave.getSelectedItem() != null || newPalette)) {

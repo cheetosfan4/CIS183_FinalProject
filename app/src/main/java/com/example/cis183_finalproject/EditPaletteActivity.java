@@ -25,6 +25,8 @@ public class EditPaletteActivity extends AppCompatActivity {
 
     Intent managePalettesActivity;
     Intent searchActivity;
+    Intent createColorActivity;
+    Intent viewColorActivity;
     Intent cameFrom;
     Intent activityToStart;
     DatabaseHelper dbHelper;
@@ -60,11 +62,14 @@ public class EditPaletteActivity extends AppCompatActivity {
 
         managePalettesActivity = new Intent(EditPaletteActivity.this, ManagePalettesActivity.class);
         searchActivity = new Intent(EditPaletteActivity.this, SearchActivity.class);
+        createColorActivity = new Intent(EditPaletteActivity.this, CreateColorActivity.class);
+        viewColorActivity = new Intent(EditPaletteActivity.this, ViewColorActivity.class);
 
         String startedMe = (String) cameFrom.getSerializableExtra("startedMe");
 
         if(startedMe != null && startedMe.equals("search")) {
             activityToStart = searchActivity;
+            SessionData.setPaletteReturn(true);
         }
         else {
             activityToStart = managePalettesActivity;
@@ -93,14 +98,40 @@ public class EditPaletteActivity extends AppCompatActivity {
         btn_j_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(activityToStart);
-                finish();
+                if (SessionData.getPaletteReturn()) {
+                    SessionData.setPaletteReturn(false);
+                    startActivity(searchActivity);
+                    finish();
+                }
+                else {
+                    startActivity(activityToStart);
+                    finish();
+                }
             }
         });
         lv_j_colors.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //edit color
+
+                /*if (colorList.get(position).getAuthor().getUsername().equals(SessionData.getCurrentUser().getUsername())) {
+                    createColorActivity.putExtra("selectedColor", colorList.get(position));
+                    createColorActivity.putExtra("selectedPalette", selectedPalette);
+                    createColorActivity.putExtra("startedMe", "editPalette");
+                    startActivity(createColorActivity);
+                    finish();
+                }
+                else {
+                    viewColorActivity.putExtra("selectedColor", colorList.get(position));
+                    viewColorActivity.putExtra("selectedPalette", selectedPalette);
+                    viewColorActivity.putExtra("startedMe", "editPalette");
+                    startActivity(viewColorActivity);
+                    finish();
+                }*/
+                viewColorActivity.putExtra("selectedColor", colorList.get(position));
+                viewColorActivity.putExtra("selectedPalette", selectedPalette);
+                viewColorActivity.putExtra("startedMe", "editPalette");
+                startActivity(viewColorActivity);
+                finish();
             }
         });
         lv_j_colors.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {

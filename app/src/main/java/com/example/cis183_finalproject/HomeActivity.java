@@ -70,6 +70,7 @@ public class HomeActivity extends AppCompatActivity {
         btn_j_createColor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                createColorActivity.putExtra("startedMe", "home");
                 startActivity(createColorActivity);
                 finish();
             }
