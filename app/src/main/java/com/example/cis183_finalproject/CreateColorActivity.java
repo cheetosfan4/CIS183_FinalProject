@@ -102,7 +102,7 @@ public class CreateColorActivity extends AppCompatActivity {
         btn_j_newPaletteSave = findViewById(R.id.btn_v_createColor_newPaletteSave);
         spn_j_paletteSave = findViewById(R.id.spn_v_createColor_paletteSave);
 
-        paletteList = dbHelper.getPalettesFromUser(SessionData.getCurrentUser());
+        paletteList = dbHelper.getPalettesByUser(SessionData.getCurrentUser());
         pLAdapter = new PaletteListAdapter(this, paletteList);
         spn_j_paletteSave.setAdapter(pLAdapter);
 
@@ -216,6 +216,10 @@ public class CreateColorActivity extends AppCompatActivity {
                 palette.setAuthor(SessionData.getCurrentUser());
 
                 dbHelper.addPaletteToDatabase(palette);
+                dbHelper.addPaletteToUser(SessionData.getCurrentUser(), palette);
+                paletteList.add(palette);
+                pLAdapter.notifyDataSetChanged();
+                spn_j_paletteSave.setSelection(paletteList.size() - 1);
             }
             else {
                 dbHelper.addColorToPalette((Palette)spn_j_paletteSave.getSelectedItem(), color);

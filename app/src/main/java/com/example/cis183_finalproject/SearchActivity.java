@@ -25,6 +25,7 @@ import java.util.List;
 public class SearchActivity extends AppCompatActivity {
 
     Intent homeActivity;
+    Intent editPaletteActivity;
     DatabaseHelper dbHelper;
 
     Button btn_j_back;
@@ -65,6 +66,7 @@ public class SearchActivity extends AppCompatActivity {
         });
 
         homeActivity = new Intent(SearchActivity.this, HomeActivity.class);
+        editPaletteActivity = new Intent(SearchActivity.this, EditPaletteActivity.class);
         dbHelper = new DatabaseHelper(this);
 
         btn_j_back = findViewById(R.id.btn_v_search_back);
@@ -169,6 +171,17 @@ public class SearchActivity extends AppCompatActivity {
                 et_j_palettes_ID.setText("");
                 et_j_palettes_colorName.setText("");
                 et_j_palettes_colorHex.setText("");
+            }
+        });
+        lv_j_results.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (lv_j_results.getAdapter() == pLAdapter) {
+                    editPaletteActivity.putExtra("selectedPalette", paletteList.get(position));
+                    editPaletteActivity.putExtra("startedMe", "search");
+                    startActivity(editPaletteActivity);
+                    finish();
+                }
             }
         });
     }

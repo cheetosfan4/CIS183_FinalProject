@@ -44,7 +44,8 @@ public class ManagePalettesActivity extends AppCompatActivity {
         btn_j_back = findViewById(R.id.btn_v_managePalettes_back);
         lv_j_palettes = findViewById(R.id.lv_v_managePalettes_palettes);
 
-        paletteList = dbHelper.getPalettesFromUser(SessionData.getCurrentUser());
+        dbHelper.loadPalettesToUser(SessionData.getCurrentUser());
+        paletteList = SessionData.getCurrentUser().getPaletteList();
         pLAdapter = new PaletteListAdapter(this, paletteList);
         lv_j_palettes.setAdapter(pLAdapter);
 
@@ -63,6 +64,7 @@ public class ManagePalettesActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 editPaletteActivity.putExtra("selectedPalette", paletteList.get(position));
+                editPaletteActivity.putExtra("startedMe", "managePalettes");
                 startActivity(editPaletteActivity);
                 finish();
             }
@@ -70,8 +72,15 @@ public class ManagePalettesActivity extends AppCompatActivity {
         lv_j_palettes.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                dbHelper.deletePaletteFromDatabase(paletteList.get(position));
-                paletteList.remove(position);
+                Palette clickedPalette = paletteList.get(position);
+                if (clickedPalette.getAuthor().getUsername().equals(SessionData.getCurrentUser().getUsername())) {
+                    dbHelper.deletePaletteFromDatabase(clickedPalette);
+                    paletteList.remove(position);
+                }
+                else {
+                    dbHelper.removePaletteFromUser(SessionData.getCurrentUser(), clickedPalette);
+                }
+
                 pLAdapter.notifyDataSetChanged();
                 return true;
             }
