@@ -6,48 +6,8 @@
     android:layout_height="match_parent"
     android:background="#fff4df">
 
-    <View
-        android:id="@+id/view_v_paletteCell_display1"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="2dp"
-        android:paddingBottom="4dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <View
-        android:id="@+id/view_v_paletteCell_display2"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="2dp"
-        android:paddingBottom="4dp"
-        app:layout_constraintStart_toEndOf="@+id/view_v_paletteCell_display1"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <View
-        android:id="@+id/view_v_paletteCell_display3"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="2dp"
-        android:paddingBottom="4dp"
-        app:layout_constraintStart_toEndOf="@+id/view_v_paletteCell_display2"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <View
-        android:id="@+id/view_v_paletteCell_display4"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="2dp"
-        android:paddingBottom="4dp"
-        app:layout_constraintStart_toEndOf="@+id/view_v_paletteCell_display3"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
-        android:id="@+id/tv_v_paletteCell_ID"
+        android:id="@+id/tv_v_simplePaletteCell_ID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="2dp"
@@ -57,19 +17,48 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tv_v_paletteCell_author"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <View
+        android:id="@+id/view_v_simplePaletteCell_display1"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="2dp"
-        android:layout_marginEnd="12dp"
         android:paddingBottom="4dp"
-        android:text="Author"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/view_v_simplePaletteCell_display2"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="2dp"
+        android:paddingBottom="4dp"
+        app:layout_constraintStart_toEndOf="@+id/view_v_simplePaletteCell_display1"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/view_v_simplePaletteCell_display3"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="2dp"
+        android:paddingBottom="4dp"
+        app:layout_constraintStart_toEndOf="@+id/view_v_simplePaletteCell_display2"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/view_v_simplePaletteCell_display4"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="2dp"
+        android:paddingBottom="4dp"
+        app:layout_constraintStart_toEndOf="@+id/view_v_simplePaletteCell_display3"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tv_v_paletteCell_ellipses"
+        android:id="@+id/tv_v_simplePaletteCell_ellipses"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -77,6 +66,6 @@
         android:text=". . ."
         android:textAlignment="center"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/view_v_paletteCell_display4"
-        app:layout_constraintStart_toEndOf="@+id/view_v_paletteCell_display4" />
+        app:layout_constraintBottom_toBottomOf="@+id/view_v_simplePaletteCell_display4"
+        app:layout_constraintStart_toEndOf="@+id/view_v_simplePaletteCell_display4" />
 </androidx.constraintlayout.widget.ConstraintLayout>

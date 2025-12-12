@@ -1,6 +1,7 @@
 package com.example.cis183_finalproject;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,11 +44,17 @@ public class ColorListAdapter extends BaseAdapter {
         TextView tv_j_hex = convertView.findViewById(R.id.tv_v_colorCell_hex);
         TextView tv_j_name = convertView.findViewById(R.id.tv_v_colorCell_name);
         TextView tv_j_author = convertView.findViewById(R.id.tv_v_colorCell_author);
+        View view_j_display = convertView.findViewById(R.id.view_v_colorCell_display);
 
         ColorData color = colorList.get(position);
         tv_j_hex.setText("#" + color.getHex());
         tv_j_name.setText(color.getName());
-        tv_j_author.setText(color.getAuthor().getUsername());
+        tv_j_author.setText("Author: " + color.getAuthor().getUsername());
+        int r = ColorData.getRedFromHex(color.getHex());
+        int g = ColorData.getGreenFromHex(color.getHex());
+        int b = ColorData.getBlueFromHex(color.getHex());
+        int displayColor = Color.rgb(r, g, b);
+        view_j_display.setBackgroundColor(displayColor);
 
         return convertView;
     }

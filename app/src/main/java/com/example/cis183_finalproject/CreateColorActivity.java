@@ -62,7 +62,8 @@ public class CreateColorActivity extends AppCompatActivity {
     Button btn_j_paletteSave;
     Button btn_j_newPaletteSave;
     Spinner spn_j_paletteSave;
-    PaletteListAdapter pLAdapter;
+    //PaletteListAdapter pLAdapter;
+    SimplePaletteListAdapter pLAdapter;
     List<Palette> paletteList;
 
     ColorData currentColor;
@@ -113,7 +114,8 @@ public class CreateColorActivity extends AppCompatActivity {
         spn_j_paletteSave = findViewById(R.id.spn_v_createColor_paletteSave);
 
         paletteList = dbHelper.getPalettesByUser(SessionData.getCurrentUser());
-        pLAdapter = new PaletteListAdapter(this, paletteList);
+        //pLAdapter = new PaletteListAdapter(this, paletteList);
+        pLAdapter = new SimplePaletteListAdapter(this, paletteList);
         spn_j_paletteSave.setAdapter(pLAdapter);
 
         cameFrom = getIntent();
@@ -267,6 +269,7 @@ public class CreateColorActivity extends AppCompatActivity {
             }
             else {
                 dbHelper.addColorToPalette((Palette)spn_j_paletteSave.getSelectedItem(), color);
+                pLAdapter.notifyDataSetChanged();
             }
 
             sb_j_RGB_red.setProgress(0);

@@ -1,5 +1,7 @@
 package com.example.cis183_finalproject;
 
+import android.graphics.Color;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -50,6 +52,14 @@ public class ColorData implements Serializable {
         int second = Character.digit(hex.charAt(5), 16);
 
         return (first * 16) + second;
+    }
+
+    public static int colorToInt(ColorData color) {
+        String hex = color.getHex();
+        int r = ColorData.getRedFromHex(hex);
+        int g = ColorData.getGreenFromHex(hex);
+        int b = ColorData.getBlueFromHex(hex);
+        return Color.rgb(r, g, b);
     }
 
     //getters

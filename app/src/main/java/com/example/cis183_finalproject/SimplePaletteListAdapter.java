@@ -12,11 +12,11 @@ import android.widget.TextView;
 
 import java.util.List;
 
-public class PaletteListAdapter extends BaseAdapter {
+public class SimplePaletteListAdapter extends BaseAdapter {
     Context context;
     List<Palette> paletteList;
 
-    public PaletteListAdapter(Context c, List<Palette> pL) {
+    public SimplePaletteListAdapter (Context c, List<Palette> pL) {
         context = c;
         paletteList = pL;
     }
@@ -40,20 +40,18 @@ public class PaletteListAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             LayoutInflater mInflater = (LayoutInflater) context.getSystemService(MainActivity.LAYOUT_INFLATER_SERVICE);
-            convertView = mInflater.inflate(R.layout.palette_cell, null);
+            convertView = mInflater.inflate(R.layout.simple_palette_cell, null);
         }
 
-        TextView tv_j_paletteID = convertView.findViewById(R.id.tv_v_paletteCell_ID);
-        TextView tv_j_author = convertView.findViewById(R.id.tv_v_paletteCell_author);
-        View view_j_display1 = convertView.findViewById(R.id.view_v_paletteCell_display1);
-        View view_j_display2 = convertView.findViewById(R.id.view_v_paletteCell_display2);
-        View view_j_display3 = convertView.findViewById(R.id.view_v_paletteCell_display3);
-        View view_j_display4 = convertView.findViewById(R.id.view_v_paletteCell_display4);
-        TextView tv_j_ellipses = convertView.findViewById(R.id.tv_v_paletteCell_ellipses);
+        TextView tv_j_paletteID = convertView.findViewById(R.id.tv_v_simplePaletteCell_ID);
+        View view_j_display1 = convertView.findViewById(R.id.view_v_simplePaletteCell_display1);
+        View view_j_display2 = convertView.findViewById(R.id.view_v_simplePaletteCell_display2);
+        View view_j_display3 = convertView.findViewById(R.id.view_v_simplePaletteCell_display3);
+        View view_j_display4 = convertView.findViewById(R.id.view_v_simplePaletteCell_display4);
+        TextView tv_j_ellipses = convertView.findViewById(R.id.tv_v_simplePaletteCell_ellipses);
 
         Palette palette = paletteList.get(position);
         tv_j_paletteID.setText(Integer.toString(palette.getPaletteID()));
-        tv_j_author.setText("Author: " + palette.getAuthor().getUsername());
         tv_j_ellipses.setVisibility(GONE);
 
         int displaysToFill = 0;

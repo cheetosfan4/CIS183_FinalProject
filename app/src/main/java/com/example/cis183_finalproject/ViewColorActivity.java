@@ -37,7 +37,8 @@ public class ViewColorActivity extends AppCompatActivity {
     Button btn_j_paletteSave;
     Button btn_j_newPaletteSave;
     Spinner spn_j_paletteSave;
-    PaletteListAdapter pLAdapter;
+    //PaletteListAdapter pLAdapter;
+    SimplePaletteListAdapter pLAdapter;
     List<Palette> paletteList;
     boolean saved;
 
@@ -98,7 +99,8 @@ public class ViewColorActivity extends AppCompatActivity {
 
         spn_j_paletteSave = findViewById(R.id.spn_v_viewColor_paletteSave);
         paletteList = dbHelper.getPalettesByUser(SessionData.getCurrentUser());
-        pLAdapter = new PaletteListAdapter(this, paletteList);
+        //pLAdapter = new PaletteListAdapter(this, paletteList);
+        pLAdapter = new SimplePaletteListAdapter(this, paletteList);
         spn_j_paletteSave.setAdapter(pLAdapter);
 
         setColor();
