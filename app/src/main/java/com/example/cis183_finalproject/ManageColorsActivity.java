@@ -47,7 +47,7 @@ public class ManageColorsActivity extends AppCompatActivity {
         btn_j_back = findViewById(R.id.btn_v_manageColors_back);
         lv_j_colors = findViewById(R.id.lv_v_manageColors_colors);
 
-        colorList = dbHelper.getColorsFromUser(SessionData.getCurrentUser());
+        colorList = dbHelper.getColorsByUser(SessionData.getCurrentUser());
         cLAdapter = new ColorListAdapter(this, colorList);
         lv_j_colors.setAdapter(cLAdapter);
 

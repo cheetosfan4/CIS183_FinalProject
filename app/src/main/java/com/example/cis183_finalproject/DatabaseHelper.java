@@ -150,9 +150,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void deleteUserFromDatabase(User user) {
-        SQLiteDatabase db = this.getWritableDatabase();
         String username = user.getUsername();
+        List<Palette> userPalettes = getPalettesByUser(user);
+        List<ColorData> userColors = getColorsByUser(user);
 
+        for (int i = 0; i < userPalettes.size(); i++) {
+            deletePaletteFromDatabase(userPalettes.get(i));
+        }
+        for (int i = 0; i < userColors.size(); i++) {
+            deleteColorFromDatabase(userColors.get(i));
+        }
+
+        SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM " + users_table_name + " WHERE username = '" + username + "';");
         db.close();
     }
@@ -216,7 +225,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return color;
     }
 
-    public List<ColorData> getColorsFromUser(User user) {
+    public List<ColorData> getColorsByUser(User user) {
         SQLiteDatabase db = this.getReadableDatabase();
         String username = user.getUsername();
         List<ColorData> colorList = new ArrayList<>();
@@ -506,6 +515,102 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
 
         return paletteList;
+    }
+
+    //====== search functions ======================================================================
+    public List<User> filterUsers(String usernameFilter, String favColorFilter) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        List<User> results = new ArrayList<>();
+
+        String query = "SELECT * FROM " + users_table_name + " WHERE 1=1";
+        Cursor cursor;
+
+        if (!usernameFilter.isEmpty()) {
+            query += " AND username = '" + usernameFilter + "'";
+        }
+        if (!favColorFilter.isEmpty()) {
+            query += " AND favColor = '" + favColorFilter + "'";
+        }
+
+        cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            do {
+                User user = new User();
+                user = new User();
+                user.setUsername(cursor.getString(0));
+                user.setPassword(cursor.getString(1));
+                user.setPaletteList(null);
+                user.setFavColor(getColor(cursor.getString(3)));
+                results.add(user);
+            }
+            while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        return results;
+    }
+
+    public List<ColorData> filterColors(String hexFilter, String nameFilter) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        List<ColorData> results = new ArrayList<>();
+
+        String query = "SELECT * FROM " + colors_table_name + " WHERE 1=1";
+        Cursor cursor;
+
+        if (!hexFilter.isEmpty()) {
+            query += " AND hex = '" + hexFilter + "'";
+        }
+        if (!nameFilter.isEmpty()) {
+            query += " AND name LIKE '%" + nameFilter + "%'";
+        }
+
+        cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            do {
+                ColorData color = new ColorData();
+                color.setHex(cursor.getString(0));
+                color.setName(cursor.getString(1));
+                color.setAuthor(getUser(cursor.getString(2)));
+                results.add(color);
+            }
+            while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        return results;
+    }
+
+    public List<Palette> filterPalettes(int id, String colorHex) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        List<Palette> results = new ArrayList<>();
+
+        String query = "SELECT * FROM " + palettes_table_name + " WHERE 1=1";
+        Cursor cursor;
+
+        if (id != 999) {
+            query += " AND paletteID = " + id;
+        }
+        if (!colorHex.isEmpty()) {
+            query += " AND colorList LIKE '%" + colorHex + "%'";
+        }
+
+        cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            do {
+                Palette palette = new Palette();
+                palette.setPaletteID(cursor.getInt(0));
+                palette.setColorList(parseColorsFromString(cursor.getString(1)));
+                palette.setAuthor(getUser(cursor.getString(2)));
+                results.add(palette);
+            }
+            while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        return results;
     }
 
     //====== getters ===============================================================================

@@ -32,6 +32,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/btn_v_search_search"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="40dp"
+        android:backgroundTint="#966400"
+        android:text="Search"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cl_v_search_filters" />
+
     <TextView
         android:id="@+id/tv_v_search_searchFor"
         android:layout_width="wrap_content"
@@ -73,7 +86,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="visible">
+            tools:visibility="gone">
 
             <TextView
                 android:id="@+id/tv_v_search_filters_users_username"
@@ -200,7 +213,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="gone">
+            tools:visibility="visible">
 
             <TextView
                 android:id="@+id/tv_v_search_filters_palettes_ID"
@@ -219,38 +232,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="40dp"
-                android:layout_marginBottom="4dp"
+                android:layout_marginBottom="31dp"
                 android:ems="10"
                 android:inputType="number"
-                app:layout_constraintBottom_toTopOf="@+id/et_v_search_filters_palettes_colorName"
+                app:layout_constraintBottom_toTopOf="@+id/et_v_search_filters_palettes_colorHex"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/tv_v_search_filters_palettes_ID"
                 app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_v_search_filters_palettes_colorName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
-                android:text="Has Color (Name):"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="@+id/et_v_search_filters_palettes_colorName"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/et_v_search_filters_palettes_colorName" />
-
-            <EditText
-                android:id="@+id/et_v_search_filters_palettes_colorName"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="40dp"
-                android:layout_marginBottom="4dp"
-                android:ems="10"
-                android:inputType="text"
-                app:layout_constraintBottom_toTopOf="@+id/et_v_search_filters_palettes_colorHex"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/tv_v_search_filters_palettes_colorName"
-                app:layout_constraintTop_toBottomOf="@+id/et_v_search_filters_palettes_ID" />
 
             <TextView
                 android:id="@+id/tv_v_search_filters_palettes_colorHex"
@@ -267,7 +255,6 @@
                 android:id="@+id/et_v_search_filters_palettes_colorHex"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
                 android:layout_marginEnd="40dp"
                 android:layout_marginBottom="4dp"
                 android:ems="10"
@@ -275,7 +262,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/tv_v_search_filters_palettes_colorHex"
-                app:layout_constraintTop_toBottomOf="@+id/et_v_search_filters_palettes_colorName" />
+                app:layout_constraintTop_toBottomOf="@+id/et_v_search_filters_palettes_ID" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -286,12 +273,12 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cl_v_search_filters" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_v_search_search" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

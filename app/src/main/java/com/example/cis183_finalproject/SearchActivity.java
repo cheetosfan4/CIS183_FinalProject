@@ -31,6 +31,7 @@ public class SearchActivity extends AppCompatActivity {
     DatabaseHelper dbHelper;
 
     Button btn_j_back;
+    Button btn_j_search;
     Spinner spn_j_searchFor;
     String[] searchFor;
     ArrayAdapter<String> spinnerAdapter;
@@ -45,7 +46,7 @@ public class SearchActivity extends AppCompatActivity {
 
     ConstraintLayout cl_j_palettes;
     EditText et_j_palettes_ID;
-    EditText et_j_palettes_colorName;
+    //EditText et_j_palettes_colorName;
     EditText et_j_palettes_colorHex;
 
     ListView lv_j_results;
@@ -74,6 +75,7 @@ public class SearchActivity extends AppCompatActivity {
         dbHelper = new DatabaseHelper(this);
 
         btn_j_back = findViewById(R.id.btn_v_search_back);
+        btn_j_search = findViewById(R.id.btn_v_search_search);
 
         spn_j_searchFor = findViewById(R.id.spn_v_search_searchFor);
         searchFor = new String[]{"Users", "Colors", "Palettes"};
@@ -91,7 +93,7 @@ public class SearchActivity extends AppCompatActivity {
 
         cl_j_palettes = findViewById(R.id.cl_v_search_filters_palettes);
         et_j_palettes_ID = findViewById(R.id.et_v_search_filters_palettes_ID);
-        et_j_palettes_colorName = findViewById(R.id.et_v_search_filters_palettes_colorName);
+        //et_j_palettes_colorName = findViewById(R.id.et_v_search_filters_palettes_colorName);
         et_j_palettes_colorHex = findViewById(R.id.et_v_search_filters_palettes_colorHex);
 
         lv_j_results = findViewById(R.id.lv_v_search_results);
@@ -124,7 +126,8 @@ public class SearchActivity extends AppCompatActivity {
                         cl_j_palettes.setVisibility(GONE);
 
                         lv_j_results.setAdapter(uLAdapter);
-                        userList = dbHelper.findUsers();
+                        userList.clear();
+                        userList.addAll(dbHelper.findUsers());
                         uLAdapter.notifyDataSetChanged();
                         break;
                     }
@@ -134,7 +137,8 @@ public class SearchActivity extends AppCompatActivity {
                         cl_j_palettes.setVisibility(GONE);
 
                         lv_j_results.setAdapter(cLAdapter);
-                        colorList = dbHelper.findColors();
+                        colorList.clear();
+                        colorList.addAll(dbHelper.findColors());
                         cLAdapter.notifyDataSetChanged();
                         break;
                     }
@@ -144,7 +148,8 @@ public class SearchActivity extends AppCompatActivity {
                         cl_j_colors.setVisibility(GONE);
 
                         lv_j_results.setAdapter(pLAdapter);
-                        paletteList = dbHelper.findPalettes();
+                        paletteList.clear();
+                        paletteList.addAll(dbHelper.findPalettes());
                         pLAdapter.notifyDataSetChanged();
                         break;
                     }
@@ -154,7 +159,7 @@ public class SearchActivity extends AppCompatActivity {
                 et_j_colors_name.setText("");
                 et_j_colors_hex.setText("");
                 et_j_palettes_ID.setText("");
-                et_j_palettes_colorName.setText("");
+                //et_j_palettes_colorName.setText("");
                 et_j_palettes_colorHex.setText("");
             }
 
@@ -165,7 +170,8 @@ public class SearchActivity extends AppCompatActivity {
                 cl_j_palettes.setVisibility(GONE);
 
                 lv_j_results.setAdapter(uLAdapter);
-                userList = dbHelper.findUsers();
+                userList.clear();
+                userList.addAll(dbHelper.findUsers());
                 uLAdapter.notifyDataSetChanged();
 
                 et_j_users_username.setText("");
@@ -173,7 +179,7 @@ public class SearchActivity extends AppCompatActivity {
                 et_j_colors_name.setText("");
                 et_j_colors_hex.setText("");
                 et_j_palettes_ID.setText("");
-                et_j_palettes_colorName.setText("");
+                //et_j_palettes_colorName.setText("");
                 et_j_palettes_colorHex.setText("");
             }
         });
@@ -203,6 +209,39 @@ public class SearchActivity extends AppCompatActivity {
                     viewColorActivity.putExtra("startedMe", "search");
                     startActivity(viewColorActivity);
                     finish();
+                }
+            }
+        });
+        btn_j_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (lv_j_results.getAdapter() == uLAdapter) {
+                    String usernameFilter = et_j_users_username.getText().toString();
+                    String favColorFilter = et_j_users_favColor.getText().toString();
+
+                    userList.clear();
+                    userList.addAll(dbHelper.filterUsers(usernameFilter, favColorFilter));
+                    uLAdapter.notifyDataSetChanged();
+                }
+                else if (lv_j_results.getAdapter() == cLAdapter) {
+                    String hexFilter = et_j_colors_hex.getText().toString();
+                    String nameFilter = et_j_colors_name.getText().toString();
+
+                    colorList.clear();
+                    colorList.addAll(dbHelper.filterColors(hexFilter, nameFilter));
+                    cLAdapter.notifyDataSetChanged();
+                }
+                else if (lv_j_results.getAdapter() == pLAdapter) {
+                    int idFilter = 999;
+                    String idFilterString = et_j_palettes_ID.getText().toString();
+                    String colorHexFilter = et_j_palettes_colorHex.getText().toString();
+
+                    if (!idFilterString.isEmpty()) {
+                        idFilter = Integer.parseInt(idFilterString);
+                    }
+                    paletteList.clear();
+                    paletteList.addAll(dbHelper.filterPalettes(idFilter, colorHexFilter));
+                    pLAdapter.notifyDataSetChanged();
                 }
             }
         });
