@@ -1,5 +1,6 @@
 package com.example.cis183_finalproject;
 
+import static android.view.View.GONE;
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
 
@@ -40,6 +41,7 @@ public class ViewColorActivity extends AppCompatActivity {
     //PaletteListAdapter pLAdapter;
     SimplePaletteListAdapter pLAdapter;
     List<Palette> paletteList;
+    Button btn_j_favorite;
     boolean saved;
 
 
@@ -102,6 +104,12 @@ public class ViewColorActivity extends AppCompatActivity {
         //pLAdapter = new PaletteListAdapter(this, paletteList);
         pLAdapter = new SimplePaletteListAdapter(this, paletteList);
         spn_j_paletteSave.setAdapter(pLAdapter);
+        btn_j_favorite = findViewById(R.id.btn_v_viewColor_favorite);
+
+        dbHelper.loadFavColorToUser(SessionData.getCurrentUser());
+        if (SessionData.getCurrentUser().getFavColor() != null && SessionData.getCurrentUser().getFavColor().getHex().equals(selectedColor.getHex())) {
+            btn_j_favorite.setVisibility(GONE);
+        }
 
         setColor();
         listeners();
@@ -137,6 +145,13 @@ public class ViewColorActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 saveColor(true);
+            }
+        });
+        btn_j_favorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dbHelper.favoriteColor(SessionData.getCurrentUser(), selectedColor);
+                btn_j_favorite.setVisibility(GONE);
             }
         });
     }

@@ -190,6 +190,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return userList;
     }
 
+    public void favoriteColor(User user, ColorData color) {
+        user.setFavColor(color);
+        SQLiteDatabase db = this.getWritableDatabase();
+        String hex = color.getHex();
+        String username = user.getUsername();
+        String information = "favColor = '" + hex + "'";
+
+        db.execSQL("UPDATE " + users_table_name + " SET " + information + " WHERE username = '" + username + "';");
+    }
+
     //====== color functions =======================================================================
 
     public void addColorToDatabase(ColorData color) {
@@ -277,6 +287,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
 
         return colorList;
+    }
+
+    public void loadFavColorToUser(User user) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String username = user.getUsername();
+        Cursor cursor = db.rawQuery("SELECT favColor FROM " + users_table_name + " WHERE username = '" + username + "' LIMIT 1", null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                user.setFavColor(getColor(cursor.getString(0)));
+            }
+            while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
     }
 
     //====== palette functions =====================================================================
