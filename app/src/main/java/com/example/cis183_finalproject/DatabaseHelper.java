@@ -17,14 +17,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String palettes_table_name = "Palettes";
 
     public DatabaseHelper(Context c) {
-        super(c, database_name, null, 20);
+        super(c, database_name, null, 23);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         //palettes will have a comma separated string of hex values for colorList
         //users will have a comma separated string of paletteIDs for paletteList
-        //will have a function that parses the comma separated strings into actual lists
         db.execSQL("CREATE TABLE " + users_table_name + " (username varchar(50) primary key not null, password varchar(50), paletteList varchar(255), favColor varchar(50), foreign key (favColor) references " + colors_table_name + " (hex));");
         db.execSQL("CREATE TABLE " + colors_table_name + " (hex varchar(50) primary key not null, name varchar(50), author varchar(50), foreign key (author) references " + users_table_name + " (username));");
         db.execSQL("CREATE TABLE " + palettes_table_name + " (paletteID integer primary key autoincrement not null, colorList varchar(255), author varchar(50), foreign key (author) references " + users_table_name + " (username));");
@@ -64,8 +63,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             db.execSQL("INSERT INTO " + colors_table_name + " (hex, name, author) VALUES ('FFFFFF', 'White', 'testusername');");
             db.execSQL("INSERT INTO " + colors_table_name + " (hex, name, author) VALUES ('000000', 'Black', 'testusername');");
-            db.execSQL("INSERT INTO " + colors_table_name + " (hex, name, author) VALUES ('FF0000', 'Red', 'Caramel12');");
-            db.execSQL("INSERT INTO " + colors_table_name + " (hex, name, author) VALUES ('0000FF', 'Blue', 'Caramel12');");
+            db.execSQL("INSERT INTO " + colors_table_name + " (hex, name, author) VALUES ('FF0000', 'Red', 'Caramel2');");
+            db.execSQL("INSERT INTO " + colors_table_name + " (hex, name, author) VALUES ('0000FF', 'Blue', 'Caramel2');");
             db.execSQL("INSERT INTO " + colors_table_name + " (hex, name, author) VALUES ('00FF00', 'Green', 'cheesyfriend');");
             db.execSQL("INSERT INTO " + colors_table_name + " (hex, name, author) VALUES ('FFFF00', 'Yellow', 'cheesyfriend');");
             db.execSQL("INSERT INTO " + colors_table_name + " (hex, name, author) VALUES ('45DE12', 'Lime', 'eggwhites34');");
@@ -84,7 +83,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.execSQL("INSERT INTO " + palettes_table_name + " (colorList, author) VALUES ('FFFFFF,000000', 'testusername');");
             db.execSQL("INSERT INTO " + palettes_table_name + " (colorList, author) VALUES ('45DE12,AB12DE,1245DE,DEAB12', 'cheesyfriend');");
             db.execSQL("INSERT INTO " + palettes_table_name + " (colorList, author) VALUES ('FFFF00,0000FF,DEAB12,AB12DE,FFFFFF', 'eggwhites34');");
-            db.execSQL("INSERT INTO " + palettes_table_name + " (colorList, author) VALUES ('0000FF,45de12,1245DE,AB12DE,000000', 'Caramel12');");
+            db.execSQL("INSERT INTO " + palettes_table_name + " (colorList, author) VALUES ('0000FF,45de12,1245DE,AB12DE,000000', 'Caramel2');");
 
             db.close();
         }
@@ -163,6 +162,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         List<Palette> userPalettes = getPalettesByUser(user);
         List<ColorData> userColors = getColorsByUser(user);
 
+        //also deletes all of the user's own colors and palettes
         for (int i = 0; i < userPalettes.size(); i++) {
             deletePaletteFromDatabase(userPalettes.get(i));
         }
@@ -315,6 +315,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //====== palette functions =====================================================================
+    //only returns palettes created by the user, not all saved palettes
     public List<Palette> getPalettesByUser(User user) {
         SQLiteDatabase db = this.getReadableDatabase();
         String username = user.getUsername();

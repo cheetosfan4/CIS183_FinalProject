@@ -84,6 +84,13 @@ public class SignUpActivity extends AppCompatActivity {
             mismatch = true;
         }
 
+        //makes sure that the user can't sign up with the same username as an existing user
+        if (!enteredUsername.isEmpty() && dbHelper.getUser(enteredUsername) != null) {
+            tv_j_error.setVisibility(VISIBLE);
+            tv_j_error.setText("Username already exists!");
+            return;
+        }
+
         if (!empty && !mismatch) {
             Log.d("SIGNUP", "SUCCESS");
             user.setUsername(enteredUsername);

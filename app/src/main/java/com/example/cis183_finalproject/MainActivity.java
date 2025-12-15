@@ -1,3 +1,9 @@
+//====================================================================================================
+//Author        :       Marc McLennan
+//Date          :       12-14-2025
+//Description   :       CIS183 Final Project; Color Database App
+//====================================================================================================
+
 package com.example.cis183_finalproject;
 
 import static android.view.View.INVISIBLE;

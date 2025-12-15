@@ -65,10 +65,6 @@ public class ManageColorsActivity extends AppCompatActivity {
         lv_j_colors.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                /*createColorActivity.putExtra("selectedColor", colorList.get(position));
-                createColorActivity.putExtra("startedMe", "manageColors");
-                startActivity(createColorActivity);
-                finish();*/
                 viewColorActivity.putExtra("selectedColor", colorList.get(position));
                 viewColorActivity.putExtra("startedMe", "manageColors");
                 startActivity(viewColorActivity);

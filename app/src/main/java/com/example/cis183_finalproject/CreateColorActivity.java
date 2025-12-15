@@ -10,6 +10,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
@@ -40,6 +41,8 @@ public class CreateColorActivity extends AppCompatActivity {
 
     TextView tv_j_mode;
     Spinner spn_j_mode;
+    List<String> modes;
+    ArrayAdapter<String> spinnerAdapter;
 
     //====== RGB mode ==============================================================================
     ConstraintLayout cons_j_mode_RGB;
@@ -90,6 +93,10 @@ public class CreateColorActivity extends AppCompatActivity {
 
         tv_j_mode = findViewById(R.id.tv_v_createColor_mode);
         spn_j_mode = findViewById(R.id.spn_v_createColor_mode);
+        modes = new ArrayList<>();
+        modes.add("RGB");
+        spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, modes);
+        spn_j_mode.setAdapter(spinnerAdapter);
 
         //====== RGB mode ==========================================================================
         cons_j_mode_RGB = findViewById(R.id.cons_v_createColor_mode_RGB);

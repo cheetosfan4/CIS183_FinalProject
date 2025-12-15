@@ -119,6 +119,7 @@ public class SearchActivity extends AppCompatActivity {
         spn_j_searchFor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //switches the adapter based on which option the user picks
                 switch (position) {
                     case 0: {
                         cl_j_users.setVisibility(VISIBLE);
@@ -193,18 +194,6 @@ public class SearchActivity extends AppCompatActivity {
                     finish();
                 }
                 else if (lv_j_results.getAdapter() == cLAdapter) {
-                    /*if (colorList.get(position).getAuthor().getUsername().equals(SessionData.getCurrentUser().getUsername())) {
-                        createColorActivity.putExtra("selectedColor", colorList.get(position));
-                        createColorActivity.putExtra("startedMe", "search");
-                        startActivity(createColorActivity);
-                        finish();
-                    }
-                    else {
-                        viewColorActivity.putExtra("selectedColor", colorList.get(position));
-                        viewColorActivity.putExtra("startedMe", "search");
-                        startActivity(viewColorActivity);
-                        finish();
-                    }*/
                     viewColorActivity.putExtra("selectedColor", colorList.get(position));
                     viewColorActivity.putExtra("startedMe", "search");
                     startActivity(viewColorActivity);

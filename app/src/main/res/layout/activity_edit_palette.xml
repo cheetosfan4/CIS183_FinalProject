@@ -61,6 +61,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
+        android:backgroundTint="#966400"
         android:text="Save"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
