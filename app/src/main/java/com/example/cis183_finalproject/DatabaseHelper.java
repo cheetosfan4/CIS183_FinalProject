@@ -17,7 +17,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String palettes_table_name = "Palettes";
 
     public DatabaseHelper(Context c) {
-        super(c, database_name, null, 17);
+        super(c, database_name, null, 20);
     }
 
     @Override
@@ -49,7 +49,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (countRecordsFromTable(users_table_name) == 0) {
             SQLiteDatabase db = this.getWritableDatabase();
 
-            db.execSQL("INSERT INTO " + users_table_name + " (username, password, paletteList, favColor) VALUES ('testusername', 'testpassword', '1,2', 'FFFFFF');");
+            db.execSQL("INSERT INTO " + users_table_name + " (username, password, paletteList, favColor) VALUES ('testusername', 'testpassword', '1', 'FFFFFF');");
+            db.execSQL("INSERT INTO " + users_table_name + " (username, password, paletteList, favColor) VALUES ('cheesyfriend', 'cheese', '2', 'DEAB12');");
+            db.execSQL("INSERT INTO " + users_table_name + " (username, password, paletteList, favColor) VALUES ('eggwhites34', 'toast', '3', 'AB12DE');");
+            db.execSQL("INSERT INTO " + users_table_name + " (username, password, paletteList, favColor) VALUES ('Caramel2', 'loolee', '4', '0000FF');");
 
             db.close();
         }
@@ -61,10 +64,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             db.execSQL("INSERT INTO " + colors_table_name + " (hex, name, author) VALUES ('FFFFFF', 'White', 'testusername');");
             db.execSQL("INSERT INTO " + colors_table_name + " (hex, name, author) VALUES ('000000', 'Black', 'testusername');");
-            db.execSQL("INSERT INTO " + colors_table_name + " (hex, name, author) VALUES ('45DE12', 'Lime', 'testusername');");
-            db.execSQL("INSERT INTO " + colors_table_name + " (hex, name, author) VALUES ('AB12DE', 'Purple', 'testusername');");
-            db.execSQL("INSERT INTO " + colors_table_name + " (hex, name, author) VALUES ('1245DE', 'Blue', 'testusername');");
-            db.execSQL("INSERT INTO " + colors_table_name + " (hex, name, author) VALUES ('DEAB12', 'Yellow', 'testusername');");
+            db.execSQL("INSERT INTO " + colors_table_name + " (hex, name, author) VALUES ('FF0000', 'Red', 'Caramel12');");
+            db.execSQL("INSERT INTO " + colors_table_name + " (hex, name, author) VALUES ('0000FF', 'Blue', 'Caramel12');");
+            db.execSQL("INSERT INTO " + colors_table_name + " (hex, name, author) VALUES ('00FF00', 'Green', 'cheesyfriend');");
+            db.execSQL("INSERT INTO " + colors_table_name + " (hex, name, author) VALUES ('FFFF00', 'Yellow', 'cheesyfriend');");
+            db.execSQL("INSERT INTO " + colors_table_name + " (hex, name, author) VALUES ('45DE12', 'Lime', 'eggwhites34');");
+            db.execSQL("INSERT INTO " + colors_table_name + " (hex, name, author) VALUES ('AB12DE', 'Purple', 'eggwhites34');");
+            db.execSQL("INSERT INTO " + colors_table_name + " (hex, name, author) VALUES ('1245DE', 'Light Blue', 'eggwhites34');");
+            db.execSQL("INSERT INTO " + colors_table_name + " (hex, name, author) VALUES ('DEAB12', 'Dark Yellow', 'eggwhites34');");
 
             db.close();
         }
@@ -75,7 +82,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             SQLiteDatabase db = this.getWritableDatabase();
 
             db.execSQL("INSERT INTO " + palettes_table_name + " (colorList, author) VALUES ('FFFFFF,000000', 'testusername');");
-            db.execSQL("INSERT INTO " + palettes_table_name + " (colorList, author) VALUES ('45DE12,AB12DE,1245DE,DEAB12', 'testusername');");
+            db.execSQL("INSERT INTO " + palettes_table_name + " (colorList, author) VALUES ('45DE12,AB12DE,1245DE,DEAB12', 'cheesyfriend');");
+            db.execSQL("INSERT INTO " + palettes_table_name + " (colorList, author) VALUES ('FFFF00,0000FF,DEAB12,AB12DE,FFFFFF', 'eggwhites34');");
+            db.execSQL("INSERT INTO " + palettes_table_name + " (colorList, author) VALUES ('0000FF,45de12,1245DE,AB12DE,000000', 'Caramel12');");
 
             db.close();
         }
